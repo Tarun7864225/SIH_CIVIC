@@ -18,7 +18,7 @@ async function sendMail(email: string, verifyToken: string) {
     from: '"Civic App" <no-reply@team.com>',
     to: email,
     subject: "Email Verification",
-    html: `<p>Click <a href="http://${process.env.SITE}/verify/${verifyToken}">here</a> to verify your account. Link expires in 1 hour.</p>`,
+    html: `<p>Click <a href="https://${process.env.SITE}/verify/${verifyToken}">here</a> to verify your account. Link expires in 1 hour.</p>`,
   });
 }
 
