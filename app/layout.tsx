@@ -1,31 +1,27 @@
+"use client";
 
+import { Loader } from "@/components/loader";
+import React, { useEffect, useState } from "react";
 
-import type React from "react"
-import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
-import { AuthProvider } from "@/contexts/auth-context"
-import { Suspense, useEffect, useState } from "react"
-import "./globals.css"
-
-export const metadata: Metadata = {
-  title: "Jharkhand Civic Platform - Government of Jharkhand",
-  description: "Report civic issues and find solutions in Jharkhand",
-  generator: "v0.app",
+interface LayoutProps {
+  children: React.ReactNode;
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{children: React.ReactNode}>) {
-  return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>
-          <AuthProvider>{children}</AuthProvider>
-        </Suspense>
-        <Analytics />
-      </body>
-    </html>
-  )
-}
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 8000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+        <Loader/>
+    );
+  }
+
+  return <>{children}</>;
+};
+
+export default Layout;
