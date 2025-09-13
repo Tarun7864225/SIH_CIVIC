@@ -180,6 +180,8 @@ export default function CivicPlatform() {
   if(loading) return <Loader/>
 
   return (
+    <>
+    {loading?(<Loader/>):(<>
     <div className="min-h-screen bg-background">
       <div className="government-header py-2 px-4 bg-gradient-to-r from-blue-900 via-blue-800 to-green-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-white text-sm">
@@ -597,5 +599,7 @@ export default function CivicPlatform() {
         </div>
       </footer>
     </div>
+    </>)}
+    </>
   )
 }
