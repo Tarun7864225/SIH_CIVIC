@@ -95,7 +95,7 @@ export default function CommunityPage() {
           <h1 className="text-3xl font-bold text-foreground mb-4">{t.communityTitle}</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t.communityDescription}</p>
         </div>
-
+          <CommunityFeed />
         {user ? (
           <CommunityFeed />
         ) : (
