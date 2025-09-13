@@ -177,11 +177,9 @@ export default function AdminDashboard() {
   const [user,setUser] = useState<IUser | null>(null)  
     useEffect(() => {
       const fetchUser = async () => {
-        setLoading(true)
         const res = await fetch("/api/cookie");
         const data = await res.json();
         setUser(data.user);
-        setLoading(false)
       };
       fetchUser();
     }, []);
