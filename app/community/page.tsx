@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
 import CommunityFeed from "@/components/community-feed"
+import { IUser } from "./lib/model/user"//
 
 const content = {
   en: {
@@ -27,8 +28,20 @@ const content = {
 
 export default function CommunityPage() {
   const [language, setLanguage] = useState<"en" | "hi">("en")
-  const { user } = useAuth()
+  //const { user } = useAuth()
   const router = useRouter()
+  const [user,setUser] = useState<IUser | null>(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true)
+      const res = await fetch("/api/cookie");
+      const data = await res.json();
+      setUser(data.user);
+      setLoading(false)
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("civic-language") as "en" | "hi"
