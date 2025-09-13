@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Heart, MessageCircle, MapPin, Clock, Send, TrendingUp, AlertTriangle, Eye } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
+import { IUser } from "./lib/model/user"
+
 
 interface CommunityPost {
   id: string
@@ -117,7 +119,7 @@ const HOTSPOT_AREAS: HotspotArea[] = [
 ]
 
 export default function CommunityFeed() {
-  const { user } = useAuth()
+
   const [posts, setPosts] = useState<CommunityPost[]>(MOCK_POSTS)
   const [newPost, setNewPost] = useState("")
   const [newPostCategory, setNewPostCategory] = useState<"complaint" | "suggestion" | "discussion">("complaint")
@@ -126,6 +128,19 @@ export default function CommunityFeed() {
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number; address: string } | null>(
     null,
   )
+
+    const [user,setUser] = useState<IUser | null>(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true)
+      const res = await fetch("/api/cookie");
+      const data = await res.json();
+      setUser(data.user);
+      setLoading(false)
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
