@@ -165,7 +165,7 @@ export default function CommunityFeed() {
   }, [])
 
   const handleLike = (postId: string) => {
-    if (!user) return
+    //if (!user) return
 
     setPosts((prev) =>
       prev.map((post) => {
