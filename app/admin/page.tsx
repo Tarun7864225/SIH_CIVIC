@@ -255,13 +255,6 @@ export default function AdminDashboard() {
     setFilteredIssues(filtered)
   }, [issues, searchTerm, statusFilter, priorityFilter, categoryFilter])
 
-  // Check admin access
-  useEffect(() => {
-    if (!isLoading && (!user || user.userType !== "admin")) {
-      router.push("/login")
-    }
-  }, [user, isLoading, router])
-
   const toggleLanguage = () => {
     const newLanguage = language === "en" ? "hi" : "en"
     setLanguage(newLanguage)
