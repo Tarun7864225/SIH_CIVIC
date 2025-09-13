@@ -174,7 +174,17 @@ export default function AdminDashboard() {
 
   const { Usera, logout, isLoading } = useAuth()
   const router = useRouter()
-
+  const [user,setUser] = useState<IUser | null>(null)  
+    useEffect(() => {
+      const fetchUser = async () => {
+        setLoading(true)
+        const res = await fetch("/api/cookie");
+        const data = await res.json();
+        setUser(data.user);
+        setLoading(false)
+      };
+      fetchUser();
+    }, []);
   useEffect(() => {
     const savedLanguage = localStorage.getItem("civic-language") as "en" | "hi"
     if (savedLanguage) {
@@ -247,10 +257,10 @@ export default function AdminDashboard() {
 
   // Check admin access
   useEffect(() => {
-    if (!isLoading && (!Usera || Usera.userType !== "admin")) {
+    if (!isLoading && (!user || user.userType !== "admin")) {
       router.push("/login")
     }
-  }, [Usera, isLoading, router])
+  }, [user, isLoading, router])
 
   const toggleLanguage = () => {
     const newLanguage = language === "en" ? "hi" : "en"
@@ -271,7 +281,7 @@ export default function AdminDashboard() {
           status: newStatus,
           ...(newStatus === "resolved" && {
             resolvedAt: new Date().toISOString(),
-            resolvedBy: Usera?.adminId || Usera?.name || "Admin",
+            resolvedBy: user?.adminId || user?.name || "Admin",
           }),
         }
       }
@@ -324,7 +334,7 @@ export default function AdminDashboard() {
     )
   }
 
-  if (!Usera || Usera.userType !== "admin") {
+  if (!user || user.userType !== "admin") {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -369,7 +379,7 @@ export default function AdminDashboard() {
             <div className="flex items-center space-x-2">
               <Users className="w-4 h-4" />
               <span>
-                {Usera.name} ({Usera.adminId})
+                {user.name} ({user.adminId})
               </span>
             </div>
           </div>
